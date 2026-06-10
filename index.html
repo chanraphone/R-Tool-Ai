@@ -1,175 +1,658 @@
 <!DOCTYPE html>
 <html lang="km">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AI Image Cloner Pro</title>
-
-<script src="https://cdn.tailwindcss.com"></script>
-
-<style>
-body {
-    font-family: Arial;
-    background: #0f172a;
-    color: white;
-}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ឧបករណ៍ក្លូនរូបភាព AI - AI Image Cloner</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts (Kantumruy & Battambang for Khmer) -->
+    <link href="https://fonts.googleapis.com/css2?family=Kantumruy+Pro:wght@300;400;600;700&family=Battambang:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Kantumruy Pro', 'Battambang', sans-serif;
+            background-color: #0f172a;
+        }
+        .glass {
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+    </style>
 </head>
+<body class="text-slate-100 min-h-screen flex flex-col justify-between">
 
-<body class="p-6">
+    <!-- Header -->
+    <header class="border-b border-slate-800 bg-slate-900/80 backdrop-blur sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
+            <div class="flex items-center space-x-3">
+                <div class="p-2.5 bg-gradient-to-tr from-indigo-500 to-purple-500 rounded-xl shadow-lg shadow-indigo-500/30">
+                    <i class="fa-solid fa-clone text-xl text-white"></i>
+                </div>
+                <div>
+                    <h1 class="text-xl font-bold bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">
+                        ឧបករណ៍ក្លូនរូបភាព AI
+                    </h1>
+                    <p class="text-xs text-slate-400">ជំនាន់ដំបូង៖ សាមញ្ញ លឿន និងងាយស្រួលប្រើប្រាស់</p>
+                </div>
+            </div>
+            <div class="flex items-center space-x-3">
+                <span class="flex h-3 w-3 relative">
+                    <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                    <span class="relative inline-flex rounded-full h-3 w-3 bg-emerald-500"></span>
+                </span>
+                <span class="text-xs text-slate-300 font-medium bg-slate-800 px-3 py-1.5 rounded-full border border-slate-700">OpenRouter Active</span>
+            </div>
+        </div>
+    </header>
 
-<div class="max-w-xl mx-auto bg-slate-900 p-5 rounded-xl">
+    <!-- Main Content -->
+    <main class="max-w-7xl mx-auto px-4 py-8 w-full flex-grow">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+            
+            <!-- Left Panel: Upload and Settings -->
+            <section class="lg:col-span-5 space-y-6">
+                <!-- Dropzone for Image -->
+                <div class="glass rounded-2xl p-6 shadow-xl">
+                    <h2 class="text-lg font-semibold mb-4 flex items-center gap-2 text-indigo-400">
+                        <i class="fa-solid fa-image"></i> ១. បញ្ចូលរូបភាពច្បាប់ដើម
+                    </h2>
+                    
+                    <div id="dropzone" class="border-2 border-dashed border-slate-700 hover:border-indigo-500 rounded-xl p-8 text-center cursor-pointer transition-all bg-slate-950/40 relative overflow-hidden group">
+                        <input type="file" id="imageInput" accept="image/*" class="hidden">
+                        <div id="uploadPlaceholder" class="space-y-4">
+                            <div class="mx-auto w-16 h-16 rounded-full bg-slate-800/80 flex items-center justify-center border border-slate-700 group-hover:scale-110 transition-transform">
+                                <i class="fa-solid fa-cloud-arrow-up text-2xl text-indigo-400"></i>
+                            </div>
+                            <div>
+                                <p class="font-medium text-slate-200">អូសរូបភាពមកទីនេះ ឬ ចុចដើម្បីជ្រើសរើស</p>
+                                <p class="text-xs text-slate-500 mt-1">គាំទ្រប្រភេទ PNG, JPG, JPEG, WEBP, GIF (ទំហំក្រោម 5MB)</p>
+                            </div>
+                        </div>
+                        <div id="imagePreviewContainer" class="hidden relative w-full h-64 rounded-lg overflow-hidden border border-slate-700 bg-slate-900">
+                            <img id="imagePreview" src="" alt="ច្បាប់ដើម" class="w-full h-full object-contain">
+                            <button id="removeImageBtn" class="absolute top-3 right-3 bg-red-500/80 hover:bg-red-600 text-white p-2 rounded-lg transition-colors shadow-lg backdrop-blur-sm" title="លុបចេញ">
+                                <i class="fa-solid fa-trash-can"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
 
-<h1 class="text-xl font-bold mb-4">AI Image Cloner</h1>
+                <!-- Clone Configurations -->
+                <div class="glass rounded-2xl p-6 shadow-xl space-y-5">
+                    <h2 class="text-lg font-semibold flex items-center gap-2 text-indigo-400">
+                        <i class="fa-solid fa-sliders"></i> ២. ការកំណត់ការក្លូន (Clone Settings)
+                    </h2>
 
-<!-- 🔑 API KEY SECTION (NEW) -->
-<div class="mb-4 p-3 bg-slate-800 rounded-lg border border-slate-700">
+                    <!-- Clone Quantity -->
+                    <div>
+                        <div class="flex justify-between items-center mb-2">
+                            <label class="text-sm font-medium text-slate-300">ចំនួនរូបភាពដែលត្រូវក្លូន</label>
+                            <span id="quantityVal" class="text-indigo-400 font-bold bg-indigo-500/10 px-2.5 py-0.5 rounded-md border border-indigo-500/20">3 រូបភាព</span>
+                        </div>
+                        <input type="range" id="cloneQuantity" min="1" max="8" value="3" class="w-full h-2 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-indigo-500 focus:outline-none">
+                        <div class="flex justify-between text-[10px] text-slate-500 mt-1 px-1">
+                            <span>1 រូបភាព</span>
+                            <span>4 រូបភាព</span>
+                            <span>8 រូបភាព</span>
+                        </div>
+                    </div>
 
-    <label class="text-sm font-semibold">🔑 OpenRouter / Gemini API Key</label>
+                    <!-- Similarity Options -->
+                    <div>
+                        <label class="text-sm font-medium text-slate-300 block mb-2">កម្រិតស្រដៀងនឹងច្បាប់ដើម</label>
+                        <div class="grid grid-cols-3 gap-2">
+                            <button type="button" data-similarity="high" class="similarity-btn border border-slate-700 bg-slate-950/40 rounded-xl p-3 text-center transition-all hover:bg-slate-800 active-style border-indigo-500 text-indigo-400">
+                                <i class="fa-solid fa-crosshairs block text-lg mb-1"></i>
+                                <span class="text-xs font-semibold">ស្រដៀងខ្លាំង</span>
+                            </button>
+                            <button type="button" data-similarity="medium" class="similarity-btn border border-slate-700 bg-slate-950/40 rounded-xl p-3 text-center transition-all hover:bg-slate-800">
+                                <i class="fa-solid fa-shuffle block text-lg mb-1"></i>
+                                <span class="text-xs font-semibold">ស្រដៀងល្មម</span>
+                            </button>
+                            <button type="button" data-similarity="creative" class="similarity-btn border border-slate-700 bg-slate-950/40 rounded-xl p-3 text-center transition-all hover:bg-slate-800">
+                                <i class="fa-solid fa-wand-magic-sparkles block text-lg mb-1"></i>
+                                <span class="text-xs font-semibold">ច្នៃប្រឌិតថ្មី</span>
+                            </button>
+                        </div>
+                    </div>
 
-    <input 
-        id="apiKey" 
-        type="password"
-        class="w-full mt-2 p-2 text-black rounded"
-        placeholder="Enter your API Key here"
-    >
+                    <!-- OpenRouter API Key -->
+                    <div>
+                        <label class="text-sm font-medium text-slate-300 block mb-2 flex items-center justify-between">
+                            <span>OpenRouter API Key</span>
+                            <span class="text-[10px] text-slate-500 font-normal">រក្សាទុកក្នុង browser នេះ</span>
+                        </label>
+                        <div class="relative">
+                            <input id="apiKeyInput" type="password" autocomplete="off" spellcheck="false" placeholder="sk-or-v1-..." class="w-full bg-slate-950/60 border border-slate-800 rounded-xl pl-4 pr-12 py-3 text-sm text-slate-200 placeholder-slate-500 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-colors">
+                            <button id="toggleApiKeyBtn" type="button" class="absolute right-2 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-200 p-2 rounded-lg" title="បង្ហាញ/លាក់ API Key">
+                                <i id="toggleApiKeyIcon" class="fa-solid fa-eye"></i>
+                            </button>
+                        </div>
+                    </div>
 
-    <div class="flex items-center mt-2 gap-2">
-        <input type="checkbox" id="showKey" onchange="toggleKey()">
-        <label class="text-xs text-slate-300">Show API Key</label>
+                    <!-- Extra Prompt Modifiers -->
+                    <div>
+                        <label class="text-sm font-medium text-slate-300 block mb-2 flex items-center justify-between">
+                            <span>បន្ថែមការណែនាំពិសេស (គំនិតបន្ថែម)</span>
+                            <span class="text-[10px] text-slate-500 font-normal">ស្រេចចិត្ត</span>
+                        </label>
+                        <textarea id="promptModifier" rows="2" placeholder="ឧទាហរណ៍៖ ប្តូរស្ទីលជាគំនូរជីវចល (Anime), បន្ថែមពន្លឺថ្ងៃលិច, ប្តូរផ្ទៃខាងក្រោយ..." class="w-full bg-slate-950/60 border border-slate-800 rounded-xl px-4 py-3 text-sm text-slate-200 placeholder-slate-500 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-colors resize-none"></textarea>
+                    </div>
+
+                    <!-- Action Button -->
+                    <button id="generateBtn" disabled class="w-full py-4 px-6 rounded-xl font-bold bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 text-white shadow-lg shadow-indigo-500/20 hover:shadow-indigo-500/40 hover:opacity-95 transition-all disabled:opacity-50 disabled:cursor-not-allowed disabled:shadow-none flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-bolt"></i> ចាប់ផ្តើមក្លូនរូបភាព
+                    </button>
+                </div>
+            </section>
+
+            <!-- Right Panel: Results & Gallery -->
+            <section class="lg:col-span-7 flex flex-col space-y-6">
+                <div class="glass rounded-2xl p-6 shadow-xl flex-grow flex flex-col">
+                    <div class="flex justify-between items-center mb-6">
+                        <h2 class="text-lg font-semibold flex items-center gap-2 text-indigo-400">
+                            <i class="fa-solid fa-images"></i> លទ្ធផលនៃការក្លូន (Cloned Gallery)
+                        </h2>
+                        <button id="downloadAllBtn" class="hidden text-xs bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 px-3 py-1.5 rounded-lg transition-colors flex items-center gap-1.5">
+                            <i class="fa-solid fa-download"></i> ទាញយករូបទាំងអស់
+                        </button>
+                    </div>
+
+                    <!-- Gallery Content Area -->
+                    <div id="galleryContainer" class="flex-grow flex flex-col justify-center items-center text-center p-8 border border-dashed border-slate-800 rounded-xl bg-slate-950/20">
+                        <div id="galleryEmptyState" class="space-y-4 max-w-sm">
+                            <div class="w-20 h-20 mx-auto rounded-full bg-slate-900 flex items-center justify-center border border-slate-800 text-slate-600">
+                                <i class="fa-solid fa-shapes text-3xl"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-semibold text-slate-300">មិនទាន់មានរូបភាពក្លូននៅឡើយទេ</h3>
+                                <p class="text-sm text-slate-500 mt-1">សូមបញ្ចូលរូបភាព រួចចុច "ចាប់ផ្តើមក្លូនរូបភាព" ដើម្បីបង្ហាញលទ្ធផល!</p>
+                            </div>
+                        </div>
+
+                        <!-- Grid View for cloned results -->
+                        <div id="clonesGrid" class="hidden w-full grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <!-- Cloned cards will be injected dynamically here -->
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+    </main>
+
+    <!-- Unified Popup for iPhone & Desktop Preview -->
+    <div id="previewModal" class="fixed inset-0 bg-slate-950/95 z-50 hidden flex-col items-center justify-center p-4 backdrop-blur-md">
+        <div class="relative max-w-md w-full flex flex-col items-center">
+            <!-- Close Button -->
+            <button id="closeModalBtn" class="absolute -top-12 right-0 bg-slate-800 hover:bg-slate-700 text-white p-2.5 rounded-full transition-all border border-slate-700">
+                <i class="fa-solid fa-xmark text-lg"></i>
+            </button>
+            
+            <!-- iOS Instructions Alert Box -->
+            <div id="iosInstruction" class="w-full bg-indigo-600/20 border border-indigo-500/40 rounded-xl p-4 mb-4 text-center">
+                <p class="text-sm font-semibold text-indigo-300 flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-hand-pointer animate-bounce"></i> សម្រាប់ទូរសព្ទ iPhone
+                </p>
+                <p class="text-xs text-slate-300 mt-1">សូមចុចសង្កត់ (Long Press) លើរូបភាពខាងក្រោម រួចជ្រើសរើស <strong>"រក្សាទុកក្នុងរូបភាព" (Save to Photos)</strong> ដើម្បីទាញយក។</p>
+            </div>
+
+            <!-- Image Container -->
+            <div class="w-full bg-slate-900 rounded-xl overflow-hidden border border-slate-800 p-2 shadow-2xl">
+                <img id="modalTargetImg" src="" alt="Preview" class="w-full max-h-[60vh] object-contain rounded-lg">
+            </div>
+
+            <!-- Standard Download Button (Hidden on iOS) -->
+            <div id="standardDownloadBtnContainer" class="mt-4 w-full">
+                <a id="modalDownloadBtn" href="#" download="cloned_image.png" class="w-full justify-center bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-3 rounded-xl font-bold transition-colors flex items-center gap-2">
+                    <i class="fa-solid fa-download"></i> ទាញយករូបនេះ
+                </a>
+            </div>
+        </div>
     </div>
 
-    <button onclick="saveKey()" class="mt-2 w-full bg-green-600 p-2 rounded text-sm">
-        Save Key (LocalStorage)
-    </button>
+    <!-- Error/Notification Toast -->
+    <div id="toast" class="fixed bottom-6 right-6 z-50 transform translate-y-20 opacity-0 transition-all duration-300 max-w-md w-full">
+        <div class="bg-red-500/90 text-white p-4 rounded-xl shadow-2xl backdrop-blur flex items-center gap-3 border border-red-400/20">
+            <i id="toastIcon" class="fa-solid fa-circle-exclamation text-xl"></i>
+            <span id="toastMessage" class="text-sm font-medium">មានកំហុសមួយបានកើតឡើង!</span>
+        </div>
+    </div>
 
-</div>
+    <!-- Footer -->
+    <footer class="border-t border-slate-800/80 bg-slate-950/60 py-4 mt-12 text-center text-xs text-slate-500">
+        <div class="max-w-7xl mx-auto px-4">
+            <p>© 2026 ឧបករណ៍ក្លូនរូបភាព AI ។ ដំណើរការដោយស្វ័យប្រវត្តិតាមរយៈប្រព័ន្ធសុវត្ថិភាពខ្ពស់។</p>
+        </div>
+    </footer>
 
-<!-- Upload -->
-<input type="file" id="fileInput" accept="image/*" class="mb-3">
+    <!-- Scripts -->
+    <script>
+        // OpenRouter API configuration
+        const openRouterEndpoint = "https://openrouter.ai/api/v1/chat/completions";
+        const openRouterModel = "google/gemini-2.5-flash-image";
+        const openRouterAppTitle = "AI Image Cloner";
+        const apiKeyStorageKey = "openrouter_api_key";
+        const supportedImageTypes = ["image/png", "image/jpeg", "image/webp", "image/gif"];
+        let uploadedImageBase64 = "";
+        let uploadedImageType = "image/png"; // Default fallback mimetype
+        let selectedSimilarity = "high";
+        let generatedImagesArray = [];
 
-<!-- Prompt -->
-<textarea id="prompt" class="w-full p-2 text-black rounded mb-3" rows="3" placeholder="Prompt..."></textarea>
+        // Detect device
+        const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
 
-<!-- Button -->
-<button onclick="generate()" class="w-full bg-blue-600 p-2 rounded">
-Generate Image
-</button>
+        // DOM elements
+        const imageInput = document.getElementById('imageInput');
+        const dropzone = document.getElementById('dropzone');
+        const uploadPlaceholder = document.getElementById('uploadPlaceholder');
+        const imagePreviewContainer = document.getElementById('imagePreviewContainer');
+        const imagePreview = document.getElementById('imagePreview');
+        const removeImageBtn = document.getElementById('removeImageBtn');
+        const cloneQuantity = document.getElementById('cloneQuantity');
+        const quantityVal = document.getElementById('quantityVal');
+        const apiKeyInput = document.getElementById('apiKeyInput');
+        const toggleApiKeyBtn = document.getElementById('toggleApiKeyBtn');
+        const toggleApiKeyIcon = document.getElementById('toggleApiKeyIcon');
+        const promptModifier = document.getElementById('promptModifier');
+        const generateBtn = document.getElementById('generateBtn');
+        const galleryEmptyState = document.getElementById('galleryEmptyState');
+        const clonesGrid = document.getElementById('clonesGrid');
+        const galleryContainer = document.getElementById('galleryContainer');
+        const downloadAllBtn = document.getElementById('downloadAllBtn');
+        const similarityBtns = document.querySelectorAll('.similarity-btn');
+        const toast = document.getElementById('toast');
+        const toastMessage = document.getElementById('toastMessage');
+        const toastIcon = document.getElementById('toastIcon');
 
-<!-- Output -->
-<div id="result" class="mt-4 space-y-2"></div>
+        // Modal elements
+        const previewModal = document.getElementById('previewModal');
+        const closeModalBtn = document.getElementById('closeModalBtn');
+        const iosInstruction = document.getElementById('iosInstruction');
+        const modalTargetImg = document.getElementById('modalTargetImg');
+        const standardDownloadBtnContainer = document.getElementById('standardDownloadBtnContainer');
+        const modalDownloadBtn = document.getElementById('modalDownloadBtn');
 
-</div>
+        apiKeyInput.value = localStorage.getItem(apiKeyStorageKey) || "";
 
-<script>
-
-let base64Image = "";
-
-// Load saved key
-window.onload = function(){
-    const saved = localStorage.getItem("apiKey");
-    if(saved){
-        document.getElementById("apiKey").value = saved;
-    }
-};
-
-// Toggle show/hide API key
-function toggleKey(){
-    const input = document.getElementById("apiKey");
-    input.type = input.type === "password" ? "text" : "password";
-}
-
-// Save API key
-function saveKey(){
-    const key = document.getElementById("apiKey").value;
-    localStorage.setItem("apiKey", key);
-    alert("API Key saved!");
-}
-
-// Convert image to base64
-document.getElementById("fileInput").addEventListener("change", function(e){
-    const file = e.target.files[0];
-    const reader = new FileReader();
-
-    reader.onload = function(){
-        base64Image = reader.result.split(",")[1];
-    };
-
-    reader.readAsDataURL(file);
-});
-
-function getApiKey(){
-    return document.getElementById("apiKey").value.trim();
-}
-
-// Generate
-async function generate(){
-
-    const apiKey = getApiKey();
-    const prompt = document.getElementById("prompt").value;
-
-    if(!apiKey){
-        alert("Please enter API Key");
-        return;
-    }
-
-    if(!base64Image){
-        alert("Please upload image");
-        return;
-    }
-
-    document.getElementById("result").innerHTML = "Loading...";
-
-    const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-image-preview:generateContent?key=${apiKey}`;
-
-    const payload = {
-        contents: [{
-            parts: [
-                { text: prompt || "Create a variation of this image" },
-                {
-                    inlineData: {
-                        mimeType: "image/png",
-                        data: base64Image
-                    }
-                }
-            ]
-        }],
-        generationConfig: {
-            responseModalities: ["TEXT", "IMAGE"]
+        function getOpenRouterApiKey() {
+            return apiKeyInput.value.trim();
         }
-    };
 
-    try {
-        const res = await fetch(endpoint, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(payload)
+        apiKeyInput.addEventListener('input', () => {
+            localStorage.setItem(apiKeyStorageKey, getOpenRouterApiKey());
         });
 
-        const data = await res.json();
+        toggleApiKeyBtn.addEventListener('click', () => {
+            const shouldShow = apiKeyInput.type === 'password';
+            apiKeyInput.type = shouldShow ? 'text' : 'password';
+            toggleApiKeyIcon.className = shouldShow ? 'fa-solid fa-eye-slash' : 'fa-solid fa-eye';
+        });
 
-        const img = data?.candidates?.[0]?.content?.parts?.find(p => p.inlineData)?.inlineData?.data;
+        // Manage similarity configurations
+        similarityBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                similarityBtns.forEach(b => {
+                    b.classList.remove('border-indigo-500', 'text-indigo-400');
+                    b.classList.add('border-slate-700');
+                });
+                btn.classList.remove('border-slate-700');
+                btn.classList.add('border-indigo-500', 'text-indigo-400');
+                selectedSimilarity = btn.dataset.similarity;
+            });
+        });
 
-        if(!img){
-            document.getElementById("result").innerHTML = "No image returned";
-            return;
+        // Clone counter update
+        cloneQuantity.addEventListener('input', (e) => {
+            quantityVal.textContent = `${e.target.value} រូបភាព`;
+        });
+
+        // Drag and drop setup
+        dropzone.addEventListener('click', (e) => {
+            if (e.target !== removeImageBtn && !removeImageBtn.contains(e.target)) {
+                imageInput.click();
+            }
+        });
+
+        dropzone.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            dropzone.classList.add('border-indigo-500', 'bg-indigo-500/5');
+        });
+
+        dropzone.addEventListener('dragleave', () => {
+            dropzone.classList.remove('border-indigo-500', 'bg-indigo-500/5');
+        });
+
+        dropzone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            dropzone.classList.remove('border-indigo-500', 'bg-indigo-500/5');
+            if (e.dataTransfer.files.length) {
+                handleImageFile(e.dataTransfer.files[0]);
+            }
+        });
+
+        imageInput.addEventListener('change', (e) => {
+            if (e.target.files.length) {
+                handleImageFile(e.target.files[0]);
+            }
+        });
+
+        removeImageBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            resetUpload();
+        });
+
+        function handleImageFile(file) {
+            if (!supportedImageTypes.includes(file.type)) {
+                showToast("សូមជ្រើសរើសរូបភាពប្រភេទ PNG, JPG, WEBP ឬ GIF តែប៉ុណ្ណោះ!", "error");
+                return;
+            }
+            if (file.size > 5 * 1024 * 1024) {
+                showToast("រូបភាពធំពេកហើយ! សូមជ្រើសរើសរូបភាពក្រោម 5MB", "error");
+                return;
+            }
+
+            uploadedImageType = file.type; // Save dynamic mimetype of input image
+
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload = () => {
+                uploadedImageBase64 = reader.result;
+                imagePreview.src = reader.result;
+                uploadPlaceholder.classList.add('hidden');
+                imagePreviewContainer.classList.remove('hidden');
+                generateBtn.removeAttribute('disabled');
+                showToast("បានបញ្ចូលរូបភាពច្បាប់ដើមដោយជោគជ័យ!", "success");
+            };
+            reader.onerror = () => {
+                showToast("ការអានឯកសាររូបភាពមានបញ្ហា!", "error");
+            };
         }
 
-        const imgSrc = "data:image/png;base64," + img;
+        function resetUpload() {
+            uploadedImageBase64 = "";
+            imageInput.value = "";
+            imagePreview.src = "";
+            uploadPlaceholder.classList.remove('hidden');
+            imagePreviewContainer.classList.add('hidden');
+            generateBtn.setAttribute('disabled', 'true');
+        }
 
-        document.getElementById("result").innerHTML = `
-            <img src="${imgSrc}" class="rounded w-full">
-            <a href="${imgSrc}" download="image.png" class="block mt-2 text-center bg-green-600 p-2 rounded">
-                Download Image
-            </a>
-        `;
+        // Beautiful toast handler
+        function showToast(message, type = "error") {
+            toastMessage.textContent = message;
+            if (type === "success") {
+                toast.firstElementChild.className = "bg-emerald-500/90 text-white p-4 rounded-xl shadow-2xl backdrop-blur flex items-center gap-3 border border-emerald-400/20";
+                toastIcon.className = "fa-solid fa-circle-check text-xl";
+            } else {
+                toast.firstElementChild.className = "bg-red-500/90 text-white p-4 rounded-xl shadow-2xl backdrop-blur flex items-center gap-3 border border-red-400/20";
+                toastIcon.className = "fa-solid fa-circle-exclamation text-xl";
+            }
+            toast.classList.remove('translate-y-20', 'opacity-0');
+            
+            setTimeout(() => {
+                toast.classList.add('translate-y-20', 'opacity-0');
+            }, 4000);
+        }
 
-    } catch(err){
-        document.getElementById("result").innerHTML = "Error: " + err.message;
-    }
-}
+        // Exponential backoff mechanism
+        async function fetchWithRetry(url, options, retries = 3, delay = 1200) {
+            try {
+                const response = await fetch(url, options);
+                const responseText = await response.text();
+                let data = {};
 
-</script>
+                try {
+                    data = responseText ? JSON.parse(responseText) : {};
+                } catch (parseError) {
+                    if (response.ok) throw parseError;
+                }
 
+                if (!response.ok) {
+                    const message = data?.error?.message || data?.message || responseText || `HTTP error! status: ${response.status}`;
+                    const error = new Error(`OpenRouter API error (${response.status}): ${message}`);
+                    error.status = response.status;
+                    throw error;
+                }
+
+                return data;
+            } catch (error) {
+                const canRetry = !error.status || error.status === 429 || error.status >= 500;
+                if (retries > 0 && canRetry) {
+                    await new Promise(resolve => setTimeout(resolve, delay));
+                    return fetchWithRetry(url, options, retries - 1, delay * 2);
+                }
+                throw error;
+            }
+        }
+
+        // Open optimized preview modal
+        window.openPreviewModal = function(imageSrc, index = 1) {
+            modalTargetImg.src = imageSrc;
+            modalDownloadBtn.href = imageSrc;
+            modalDownloadBtn.download = `cloned_image_${index}.png`;
+
+            if (isIOS) {
+                iosInstruction.classList.remove('hidden');
+                standardDownloadBtnContainer.classList.add('hidden');
+            } else {
+                iosInstruction.classList.add('hidden');
+                standardDownloadBtnContainer.classList.remove('hidden');
+            }
+
+            previewModal.classList.remove('hidden');
+            previewModal.classList.add('flex');
+        };
+
+        closeModalBtn.addEventListener('click', () => {
+            previewModal.classList.add('hidden');
+            previewModal.classList.remove('flex');
+        });
+
+        // Smart downloader
+        window.downloadImage = function(src, index) {
+            if (isIOS) {
+                openPreviewModal(src, index);
+            } else {
+                const link = document.createElement('a');
+                link.href = src;
+                link.download = `cloned_image_${index}.png`;
+                document.body.appendChild(link);
+                link.click();
+                link.remove();
+            }
+        };
+
+        // Main Image Clone Process
+        generateBtn.addEventListener('click', async () => {
+            if (!uploadedImageBase64) return;
+            const openRouterApiKey = getOpenRouterApiKey();
+            if (!openRouterApiKey) {
+                showToast("សូមបញ្ចូល OpenRouter API Key មុនពេលក្លូនរូបភាព!", "error");
+                return;
+            }
+
+            const count = parseInt(cloneQuantity.value);
+            const extraPrompt = promptModifier.value.trim();
+
+            // Set up gallery layout
+            galleryEmptyState.classList.add('hidden');
+            clonesGrid.classList.remove('hidden');
+            clonesGrid.innerHTML = '';
+            downloadAllBtn.classList.add('hidden');
+            galleryContainer.className = "flex-grow p-4 border border-dashed border-slate-800 rounded-xl bg-slate-950/20";
+            
+            generatedImagesArray = [];
+
+            // Add skeletons
+            for (let i = 1; i <= count; i++) {
+                clonesGrid.innerHTML += `
+                    <div id="clone-card-${i}" class="bg-slate-900 border border-slate-800 rounded-xl overflow-hidden shadow-lg p-4 flex flex-col justify-between min-h-[320px]">
+                        <div class="relative flex-grow flex items-center justify-center bg-slate-950/40 rounded-lg overflow-hidden h-52">
+                            <div class="text-center space-y-3">
+                                <i class="fa-solid fa-spinner animate-spin text-3xl text-indigo-400"></i>
+                                <p class="text-xs text-slate-400 tracking-wide">កំពុងក្លូនរូបភាពទី ${i}...</p>
+                            </div>
+                        </div>
+                        <div class="mt-4 flex justify-between items-center">
+                            <span class="text-xs text-indigo-400 bg-indigo-500/10 px-2.5 py-1 rounded-full font-semibold border border-indigo-500/10">រូបភាពក្លូន #${i}</span>
+                            <button disabled class="opacity-50 text-slate-400 bg-slate-800 px-3 py-1.5 rounded-lg text-xs flex items-center gap-1.5 cursor-not-allowed">
+                                <i class="fa-solid fa-spinner animate-spin"></i> រង់ចាំ
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }
+
+            generateBtn.setAttribute('disabled', 'true');
+            generateBtn.innerHTML = `<i class="fa-solid fa-spinner animate-spin"></i> កំពុងដំណើរការក្លូន...`;
+
+            // Prepare payload data
+            const base64Data = uploadedImageBase64.split(',')[1];
+            
+            let basePrompt = "Generate a visually similar, high-quality variation of this image. Preserve the central subject, composition, color palette, and general details to make it look like an authentic duplicate clone.";
+            if (selectedSimilarity === "medium") {
+                basePrompt = "Create a modern, creative alternative clone of this image. Keep the main core subject but alter small elements, lighting, or the surrounding background slightly for a unique variation.";
+            } else if (selectedSimilarity === "creative") {
+                basePrompt = "Use this image as a structural inspiration to create a brand new, artistically distinct clone. Keep only the basic idea or composition while applying a fresh visual style, dynamic range, and imaginative background changes.";
+            }
+
+            if (extraPrompt) {
+                basePrompt += ` Additionally, incorporate the following creative direction requested by the user: ${extraPrompt}.`;
+            }
+
+            // Execute clones sequentially for mobile stability
+            for (let i = 1; i <= count; i++) {
+                await generateSingleClone(i, basePrompt, base64Data, openRouterApiKey);
+            }
+
+            generateBtn.removeAttribute('disabled');
+            generateBtn.innerHTML = `<i class="fa-solid fa-bolt"></i> ចាប់ផ្តើមក្លូនរូបភាព`;
+            
+            if (generatedImagesArray.length > 0) {
+                downloadAllBtn.classList.remove('hidden');
+                if (isIOS) {
+                    showToast("ក្លូនបានជោគជ័យ! ចុចលើរូបនីមួយៗដើម្បី 'រក្សាទុក' ទៅ iPhone។", "success");
+                } else {
+                    showToast(`ការក្លូនបានជោគជ័យចំនួន ${generatedImagesArray.length} រូបភាព!`, "success");
+                }
+            } else {
+                showToast("ការក្លូនរូបភាពមានបញ្ហា! សូមប្រាកដថាប្រព័ន្ធ API ដំណើរការប្រក្រតី។", "error");
+            }
+        });
+
+        // Singular Clone Processor
+        async function generateSingleClone(index, prompt, base64Image, openRouterApiKey) {
+            const card = document.getElementById(`clone-card-${index}`);
+            
+            const uniquePrompt = prompt + ` [Make this clone variation distinct and unique to index: ${index + Math.random()}]`;
+            const imageDataUrl = `data:${uploadedImageType};base64,${base64Image}`;
+            const payload = {
+                model: openRouterModel,
+                messages: [{
+                    role: "user",
+                    content: [
+                        {
+                            type: "text",
+                            text: uniquePrompt
+                        },
+                        {
+                            type: "image_url",
+                            image_url: {
+                                url: imageDataUrl
+                            }
+                        }
+                    ]
+                }],
+                modalities: ["image", "text"],
+                image_config: {
+                    aspect_ratio: "1:1"
+                },
+                stream: false
+            };
+
+            try {
+                const data = await fetchWithRetry(openRouterEndpoint, {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${openRouterApiKey}`,
+                        'Content-Type': 'application/json',
+                        'HTTP-Referer': window.location.origin === 'null' ? 'http://localhost' : window.location.origin,
+                        'X-OpenRouter-Title': openRouterAppTitle
+                    },
+                    body: JSON.stringify(payload)
+                });
+
+                const generatedImage = data.choices?.[0]?.message?.images?.[0];
+                const imageUrl = generatedImage?.image_url?.url || generatedImage?.imageUrl?.url;
+
+                if (!imageUrl) {
+                    throw new Error("OpenRouter returned a response without image data.");
+                }
+
+                const finalImageSrc = imageUrl.startsWith('data:') ? imageUrl : `data:image/png;base64,${imageUrl}`;
+                generatedImagesArray.push(finalImageSrc);
+
+                card.innerHTML = `
+                    <div onclick="openPreviewModal('${finalImageSrc}', ${index})" class="relative flex-grow flex items-center justify-center bg-slate-950/40 rounded-lg overflow-hidden h-52 group/item cursor-pointer">
+                        <img src="${finalImageSrc}" alt="Cloned Image ${index}" class="cloned-success-img w-full h-full object-cover">
+                        <div class="absolute inset-0 bg-slate-950/40 opacity-0 group-hover/item:opacity-100 transition-opacity flex items-center justify-center">
+                            <span class="bg-indigo-600/90 text-white text-xs px-3 py-1.5 rounded-lg flex items-center gap-1">
+                                <i class="fa-solid fa-magnifying-glass-plus"></i> មើលរូបធំ
+                            </span>
+                        </div>
+                    </div>
+                    <div class="mt-4 flex justify-between items-center">
+                        <span class="text-xs text-indigo-400 bg-indigo-500/10 px-2.5 py-1 rounded-full font-semibold border border-indigo-500/10">រូបភាពក្លូន #${index}</span>
+                        <button onclick="downloadImage('${finalImageSrc}', ${index})" class="text-xs text-white bg-indigo-600 hover:bg-indigo-700 px-3 py-1.5 rounded-lg flex items-center gap-1.5 transition-colors">
+                            <i class="fa-solid fa-download"></i> ទាញយក
+                        </button>
+                    </div>
+                `;
+
+            } catch (error) {
+                console.error(error);
+                card.innerHTML = `
+                    <div class="relative flex-grow flex items-center justify-center bg-red-950/20 border border-red-900/30 rounded-lg h-52">
+                        <div class="text-center p-4">
+                            <i class="fa-solid fa-triangle-exclamation text-2xl text-red-500 mb-2"></i>
+                            <p class="text-xs text-red-400 font-semibold">បរាជ័យក្នុងការក្លូន</p>
+                            <p class="text-[9px] text-slate-500 mt-1">ប្រព័ន្ធរវល់ខ្លាំង ឬ API Key មិនត្រឹមត្រូវ</p>
+                        </div>
+                    </div>
+                    <div class="mt-4 flex justify-between items-center">
+                        <span class="text-xs text-red-500/50 bg-red-500/5 px-2.5 py-1 rounded-full font-semibold border border-red-500/10">រូបភាពក្លូន #${index}</span>
+                        <button disabled class="opacity-40 text-slate-500 bg-slate-800 px-3 py-1.5 rounded-lg text-xs cursor-not-allowed">
+                            <i class="fa-solid fa-ban"></i> បរាជ័យ
+                        </button>
+                    </div>
+                `;
+            }
+        }
+
+        // Master downloader
+        downloadAllBtn.addEventListener('click', () => {
+            if (isIOS) {
+                showToast("សម្រាប់ iPhone៖ សូមចុចលើរូបនីមួយៗ រួចសង្កត់ដើម្បីរក្សាទុកក្នុងទូរសព្ទ។", "success");
+                return;
+            }
+
+            const successImages = document.querySelectorAll('.cloned-success-img');
+            successImages.forEach((img, i) => {
+                setTimeout(() => {
+                    const link = document.createElement('a');
+                    link.href = img.src;
+                    link.download = `cloned_image_${i + 1}.png`;
+                    document.body.appendChild(link);
+                    link.click();
+                    link.remove();
+                }, i * 300);
+            });
+            showToast("កំពុងទាញយករូបភាពទាំងអស់...", "success");
+        });
+    </script>
 </body>
 </html>
