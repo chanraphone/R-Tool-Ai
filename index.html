@@ -26,22 +26,22 @@
 
     <!-- Header -->
     <header class="border-b border-slate-800 bg-slate-900/80 backdrop-blur sticky top-0 z-50">
-        <div class="max-w-7xl mx-auto px-4 py-4 flex flex-col gap-4 lg:flex-row lg:justify-between lg:items-center">
+        <div class="max-w-7xl mx-auto px-4 py-3 flex flex-col gap-3 lg:flex-row lg:justify-between lg:items-center">
             <div class="flex items-center space-x-3">
-                <div class="p-2.5 bg-gradient-to-tr from-indigo-500 to-purple-500 rounded-xl shadow-lg shadow-indigo-500/30">
-                    <i class="fa-solid fa-clone text-xl text-white"></i>
+                <div class="p-2 bg-gradient-to-tr from-indigo-500 to-purple-500 rounded-lg shadow-lg shadow-indigo-500/30">
+                    <i class="fa-solid fa-clone text-lg text-white"></i>
                 </div>
                 <div>
-                    <h1 class="text-xl font-bold bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">
+                    <h1 class="text-lg font-bold bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">
                         ឧបករណ៍ក្លូនរូបភាព AI
                     </h1>
-                    <p class="text-xs text-slate-400">ជំនាន់ដំបូង៖ សាមញ្ញ លឿន និងងាយស្រួលប្រើប្រាស់</p>
+                    <p class="hidden sm:block text-[11px] text-slate-400">ជំនាន់ដំបូង៖ សាមញ្ញ លឿន និងងាយស្រួលប្រើប្រាស់</p>
                 </div>
             </div>
-            <div class="w-full lg:w-auto flex flex-col sm:flex-row sm:items-center gap-3">
-                <div class="flex items-center gap-2 bg-slate-950/60 border border-slate-800 rounded-xl px-3 py-2">
+            <div class="w-full lg:w-auto flex flex-col gap-2 lg:items-end">
+                <div class="w-full lg:w-auto flex items-center gap-2 bg-slate-950/60 border border-slate-800 rounded-lg px-2.5 py-1.5">
                     <i class="fa-solid fa-key text-xs text-indigo-400"></i>
-                    <input id="apiKeyInput" type="password" autocomplete="off" spellcheck="false" placeholder="OpenRouter API Key" class="w-full sm:w-56 bg-transparent text-xs text-slate-200 placeholder-slate-500 focus:outline-none">
+                    <input id="apiKeyInput" type="password" autocomplete="off" spellcheck="false" placeholder="OpenRouter API Key" class="min-w-0 flex-1 sm:w-56 bg-transparent text-xs text-slate-200 placeholder-slate-500 focus:outline-none">
                     <button id="toggleApiKeyBtn" type="button" class="text-slate-400 hover:text-slate-200 p-1" title="បង្ហាញ/លាក់ API Key">
                         <i id="toggleApiKeyIcon" class="fa-solid fa-eye"></i>
                     </button>
@@ -49,14 +49,16 @@
                         <i class="fa-solid fa-rotate"></i>
                     </button>
                 </div>
-                <div class="flex items-center gap-3">
-                    <span class="flex h-3 w-3 relative">
+                <div class="flex flex-wrap items-center gap-1.5">
+                    <span class="flex h-2.5 w-2.5 relative">
                         <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                        <span class="relative inline-flex rounded-full h-3 w-3 bg-emerald-500"></span>
+                        <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500"></span>
                     </span>
-                    <span class="text-xs text-slate-300 font-medium bg-slate-800 px-3 py-1.5 rounded-full border border-slate-700">OpenRouter Active</span>
+                    <span class="text-[11px] leading-none text-slate-300 font-medium bg-slate-800/80 px-2.5 py-1.5 rounded-full border border-slate-700">R-Tool-AI</span>
+                    <span id="customerStatus" class="text-[11px] leading-none text-slate-300 font-medium bg-slate-800/80 px-2.5 py-1.5 rounded-full border border-slate-700 whitespace-nowrap">Customer: --</span>
+                    <span id="keyExpiresStatus" class="text-[11px] leading-none text-slate-300 font-medium bg-slate-800/80 px-2.5 py-1.5 rounded-full border border-slate-700 whitespace-nowrap">Expiration: --</span>
+                    <span id="creditLimitStatus" class="text-[11px] leading-none text-slate-300 font-medium bg-slate-800/80 px-2.5 py-1.5 rounded-full border border-slate-700 whitespace-nowrap">Credit limit: --</span>
                 </div>
-                <span id="balanceStatus" class="text-xs text-slate-300 font-medium bg-slate-800 px-3 py-2 rounded-xl border border-slate-700 whitespace-nowrap">Balance: --</span>
             </div>
         </div>
     </header>
@@ -135,6 +137,20 @@
                                 <span class="text-xs font-semibold">ច្នៃប្រឌិតថ្មី</span>
                             </button>
                         </div>
+                    </div>
+
+                    <!-- AI Model Selector -->
+                    <div>
+                        <label class="text-sm font-medium text-slate-300 block mb-2 flex items-center justify-between">
+                            <span>ជ្រើសរើស AI Model</span>
+                            <button id="reloadModelsBtn" type="button" class="text-[10px] text-indigo-300 hover:text-indigo-200 font-semibold flex items-center gap-1">
+                                <i class="fa-solid fa-rotate"></i> Load Models
+                            </button>
+                        </label>
+                        <select id="modelSelect" class="w-full bg-slate-950/60 border border-slate-800 rounded-xl px-4 py-3 text-sm text-slate-200 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-colors">
+                            <option value="google/gemini-2.5-flash-image">Google Gemini 2.5 Flash Image</option>
+                        </select>
+                        <p id="modelHelpText" class="text-[10px] text-slate-500 mt-2">បញ្ជីនេះបង្ហាញ model ដែលគាំទ្រ image input និង image output។</p>
                     </div>
 
                     <!-- Extra Prompt Modifiers -->
@@ -229,7 +245,7 @@
     <!-- Footer -->
     <footer class="border-t border-slate-800/80 bg-slate-950/60 py-4 mt-12 text-center text-xs text-slate-500">
         <div class="max-w-7xl mx-auto px-4">
-            <p>© 2026 ឧបករណ៍ក្លូនរូបភាព AI ។ ដំណើរការដោយស្វ័យប្រវត្តិតាមរយៈប្រព័ន្ធសុវត្ថិភាពខ្ពស់។</p>
+            <p>© 2026 R-Tool-AI ។ អ្នកផលិតធូល៖ 077857878 / 086680000</p>
         </div>
     </footer>
 
@@ -238,15 +254,24 @@
         // OpenRouter API configuration
         const openRouterEndpoint = "https://openrouter.ai/api/v1/chat/completions";
         const openRouterKeyEndpoint = "https://openrouter.ai/api/v1/key";
-        const openRouterCreditsEndpoint = "https://openrouter.ai/api/v1/credits";
-        const openRouterModel = "google/gemini-2.5-flash-image";
+        const openRouterModelsEndpoint = "https://openrouter.ai/api/v1/models";
+        const defaultOpenRouterModel = "google/gemini-2.5-flash-image";
+        const workspaceCreditLimit = 1;
+        const workspaceCreditLimitResetInterval = "weekly";
         const openRouterAppTitle = "AI Image Cloner";
         const apiKeyStorageKey = "openrouter_api_key";
+        const selectedModelStorageKey = "openrouter_selected_model";
+        const requestCountStorageKey = "openrouter_request_count";
         const supportedImageTypes = ["image/png", "image/jpeg", "image/webp", "image/gif"];
         let uploadedImages = [];
         let selectedSimilarity = "high";
         let generatedImagesArray = [];
         let balanceRefreshTimer;
+        const savedOpenRouterModel = localStorage.getItem(selectedModelStorageKey);
+        let selectedOpenRouterModel = savedOpenRouterModel && !["undefined", "null", ""].includes(savedOpenRouterModel)
+            ? savedOpenRouterModel
+            : defaultOpenRouterModel;
+        let requestCount = parseInt(localStorage.getItem(requestCountStorageKey) || "0", 10);
 
         // Detect device
         const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
@@ -265,7 +290,12 @@
         const toggleApiKeyBtn = document.getElementById('toggleApiKeyBtn');
         const toggleApiKeyIcon = document.getElementById('toggleApiKeyIcon');
         const refreshBalanceBtn = document.getElementById('refreshBalanceBtn');
-        const balanceStatus = document.getElementById('balanceStatus');
+        const customerStatus = document.getElementById('customerStatus');
+        const creditLimitStatus = document.getElementById('creditLimitStatus');
+        const keyExpiresStatus = document.getElementById('keyExpiresStatus');
+        const modelSelect = document.getElementById('modelSelect');
+        const reloadModelsBtn = document.getElementById('reloadModelsBtn');
+        const modelHelpText = document.getElementById('modelHelpText');
         const promptModifier = document.getElementById('promptModifier');
         const generateBtn = document.getElementById('generateBtn');
         const galleryEmptyState = document.getElementById('galleryEmptyState');
@@ -286,16 +316,200 @@
         const modalDownloadBtn = document.getElementById('modalDownloadBtn');
 
         apiKeyInput.value = localStorage.getItem(apiKeyStorageKey) || "";
+        modelSelect.value = selectedOpenRouterModel;
+        updateRequestCountStatus();
 
         function getOpenRouterApiKey() {
             return apiKeyInput.value.trim();
+        }
+
+        function getSelectedOpenRouterModel() {
+            const model = modelSelect.value || selectedOpenRouterModel || defaultOpenRouterModel;
+            return ["undefined", "null", ""].includes(model) ? defaultOpenRouterModel : model;
+        }
+
+        function updateRequestCountStatus() {
+        }
+
+        function getCustomerName(keyData) {
+            return keyData?.name || keyData?.label || "";
+        }
+
+        function updateCustomerStatus(keyData) {
+            const hasApiKey = Boolean(getOpenRouterApiKey());
+            const customerName = getCustomerName(keyData);
+            customerStatus.textContent = customerName
+                ? `Customer: ${customerName}`
+                : hasApiKey ? "Customer: checking" : "Customer: --";
+            if (customerName) {
+                customerStatus.title = customerName;
+            } else {
+                customerStatus.removeAttribute("title");
+            }
+        }
+
+        function formatLimitResetLabel(value) {
+            if (!value) return "";
+            const labels = {
+                daily: "day",
+                weekly: "week",
+                monthly: "month"
+            };
+            return ` / ${labels[value] || String(value).replaceAll("_", " ")}`;
+        }
+
+        function updateCreditLimitStatus(value, resetInterval = "") {
+            if (value === undefined) {
+                creditLimitStatus.textContent = "Credit limit: --";
+                creditLimitStatus.removeAttribute("title");
+                return false;
+            }
+
+            if (value === null || value === "") {
+                creditLimitStatus.textContent = "Credit limit: Unlimited";
+                creditLimitStatus.removeAttribute("title");
+                return false;
+            }
+
+            const limit = getFiniteNumber(value);
+            if (limit === null) {
+                creditLimitStatus.textContent = `Credit limit: ${String(value)}`;
+                creditLimitStatus.title = String(value);
+                return true;
+            }
+
+            const resetLabel = formatLimitResetLabel(resetInterval);
+            creditLimitStatus.textContent = `Credit limit: $${formatCreditAmount(limit)}${resetLabel}`;
+            creditLimitStatus.title = resetInterval ? `Resets: ${String(resetInterval)}` : "Credit limit";
+            return true;
+        }
+
+        function updateWorkspaceCreditLimitStatus() {
+            const hasWorkspaceLimit = updateCreditLimitStatus(workspaceCreditLimit, workspaceCreditLimitResetInterval);
+            creditLimitStatus.title = "Workspace guardrail budget configured in OpenRouter.";
+            return hasWorkspaceLimit;
+        }
+
+        function formatTimeRemaining(targetDate) {
+            const remainingMs = targetDate.getTime() - Date.now();
+            if (remainingMs <= 0) return "Expired";
+
+            const totalMinutes = Math.ceil(remainingMs / 60000);
+            const days = Math.floor(totalMinutes / 1440);
+            const hours = Math.floor((totalMinutes % 1440) / 60);
+            const minutes = totalMinutes % 60;
+
+            if (days >= 1) {
+                return hours > 0 ? `${days}d ${hours}h left` : `${days}d left`;
+            }
+
+            if (hours >= 1) {
+                return minutes > 0 ? `${hours}h ${minutes}m left` : `${hours}h left`;
+            }
+
+            return `${minutes}m left`;
+        }
+
+        function updateKeyExpiresStatus(value) {
+            if (value === undefined) {
+                keyExpiresStatus.textContent = "Expiration: --";
+                keyExpiresStatus.removeAttribute("title");
+                return;
+            }
+
+            if (value === null || value === "") {
+                keyExpiresStatus.textContent = "Expiration: Never";
+                keyExpiresStatus.removeAttribute("title");
+                return;
+            }
+
+            const expiresDate = new Date(value);
+            if (Number.isNaN(expiresDate.getTime())) {
+                keyExpiresStatus.textContent = `Expiration: ${String(value)}`;
+                keyExpiresStatus.title = String(value);
+                return;
+            }
+
+            keyExpiresStatus.textContent = `Expiration: ${formatTimeRemaining(expiresDate)}`;
+            keyExpiresStatus.title = expiresDate.toLocaleString();
+        }
+
+        function incrementRequestCount() {
+            requestCount++;
+            localStorage.setItem(requestCountStorageKey, String(requestCount));
+            updateRequestCountStatus();
+        }
+
+        function setModelHelp(message, type = "neutral") {
+            modelHelpText.textContent = message;
+            modelHelpText.classList.remove('text-slate-500', 'text-emerald-300', 'text-red-300');
+            if (type === "success") {
+                modelHelpText.classList.add('text-emerald-300');
+            } else if (type === "error") {
+                modelHelpText.classList.add('text-red-300');
+            } else {
+                modelHelpText.classList.add('text-slate-500');
+            }
+        }
+
+        function applyModelOptions(models) {
+            let currentModel = selectedOpenRouterModel || defaultOpenRouterModel;
+            const modelOptions = models.length ? models : [{
+                id: defaultOpenRouterModel,
+                name: "Google Gemini 2.5 Flash Image"
+            }];
+            let hasCurrentModel = modelOptions.some(model => model.id === currentModel);
+
+            if (models.length && !hasCurrentModel) {
+                currentModel = defaultOpenRouterModel;
+                selectedOpenRouterModel = defaultOpenRouterModel;
+                localStorage.setItem(selectedModelStorageKey, defaultOpenRouterModel);
+                hasCurrentModel = modelOptions.some(model => model.id === currentModel);
+            }
+
+            modelSelect.innerHTML = modelOptions.map(model => `
+                <option value="${escapeHtml(model.id)}">${escapeHtml(model.name || model.id)}</option>
+            `).join('');
+
+            if (!hasCurrentModel) {
+                modelSelect.insertAdjacentHTML('afterbegin', `<option value="${escapeHtml(currentModel)}">${escapeHtml(currentModel)}</option>`);
+            }
+
+            modelSelect.value = currentModel;
+        }
+
+        function isImageToImageModel(model) {
+            const inputModalities = model?.architecture?.input_modalities || [];
+            const outputModalities = model?.architecture?.output_modalities || [];
+            return inputModalities.includes("image") && outputModalities.includes("image");
+        }
+
+        async function loadImageModels(showToastOnSuccess = false) {
+            setModelHelp("កំពុង load image models...");
+
+            try {
+                const data = await fetchOpenRouterJson(openRouterModelsEndpoint, getOpenRouterApiKey());
+                const models = (data?.data || [])
+                    .filter(isImageToImageModel)
+                    .sort((first, second) => (first.name || first.id).localeCompare(second.name || second.id));
+
+                applyModelOptions(models);
+                setModelHelp(`បាន load image-capable models ចំនួន ${models.length}។`, "success");
+                if (showToastOnSuccess) showToast("បាន load AI Models រួចរាល់!", "success");
+            } catch (error) {
+                console.error(error);
+                applyModelOptions([]);
+                setModelHelp("មិនអាច load models បាន។ ប្រើ default model សិន។", "error");
+            }
         }
 
         apiKeyInput.addEventListener('input', () => {
             localStorage.setItem(apiKeyStorageKey, getOpenRouterApiKey());
             clearTimeout(balanceRefreshTimer);
             const openRouterApiKey = getOpenRouterApiKey();
-            balanceStatus.textContent = openRouterApiKey ? "Balance: កំពុងរង់ចាំ..." : "Balance: --";
+            customerStatus.textContent = openRouterApiKey ? "Customer: checking" : "Customer: --";
+            updateCreditLimitStatus(undefined);
+            updateKeyExpiresStatus(undefined);
             if (openRouterApiKey.length > 20) {
                 balanceRefreshTimer = setTimeout(() => refreshOpenRouterBalance(false), 900);
             }
@@ -321,17 +535,15 @@
             refreshOpenRouterBalance(true);
         });
 
-        function setBalanceStatus(message, type = "neutral") {
-            balanceStatus.textContent = message;
-            balanceStatus.classList.remove('text-slate-300', 'text-emerald-300', 'text-red-300', 'border-slate-700', 'border-emerald-500/30', 'border-red-500/30');
-            if (type === "success") {
-                balanceStatus.classList.add('text-emerald-300', 'border-emerald-500/30');
-            } else if (type === "error") {
-                balanceStatus.classList.add('text-red-300', 'border-red-500/30');
-            } else {
-                balanceStatus.classList.add('text-slate-300', 'border-slate-700');
-            }
-        }
+        modelSelect.addEventListener('change', () => {
+            selectedOpenRouterModel = getSelectedOpenRouterModel();
+            localStorage.setItem(selectedModelStorageKey, selectedOpenRouterModel);
+            setModelHelp(`កំពុងប្រើ model: ${selectedOpenRouterModel}`);
+        });
+
+        reloadModelsBtn.addEventListener('click', () => {
+            loadImageModels(true);
+        });
 
         function formatCreditAmount(value) {
             return Number(value).toLocaleString(undefined, {
@@ -347,13 +559,18 @@
         }
 
         async function fetchOpenRouterJson(url, openRouterApiKey) {
+            const headers = {
+                'HTTP-Referer': window.location.origin === 'null' ? 'http://localhost' : window.location.origin,
+                'X-OpenRouter-Title': openRouterAppTitle
+            };
+
+            if (openRouterApiKey) {
+                headers.Authorization = `Bearer ${openRouterApiKey}`;
+            }
+
             const response = await fetch(url, {
                 method: 'GET',
-                headers: {
-                    'Authorization': `Bearer ${openRouterApiKey}`,
-                    'HTTP-Referer': window.location.origin === 'null' ? 'http://localhost' : window.location.origin,
-                    'X-OpenRouter-Title': openRouterAppTitle
-                }
+                headers
             });
             const responseText = await response.text();
             const data = responseText ? JSON.parse(responseText) : {};
@@ -369,51 +586,33 @@
         async function refreshOpenRouterBalance(showToastOnSuccess = false) {
             const openRouterApiKey = getOpenRouterApiKey();
             if (!openRouterApiKey) {
-                setBalanceStatus("Balance: --");
+                updateCustomerStatus(null);
+                updateCreditLimitStatus(undefined);
+                updateKeyExpiresStatus(undefined);
                 return;
             }
 
-            setBalanceStatus("Balance: កំពុងពិនិត្យ...");
+            customerStatus.textContent = "Customer: checking";
+            creditLimitStatus.textContent = "Credit limit: checking";
+            creditLimitStatus.removeAttribute("title");
+            keyExpiresStatus.textContent = "Expiration: checking";
 
             try {
                 const keyInfo = await fetchOpenRouterJson(openRouterKeyEndpoint, openRouterApiKey);
                 const keyData = keyInfo?.data || {};
-                const keyRemaining = getFiniteNumber(keyData.limit_remaining);
-                const keyLimit = getFiniteNumber(keyData.limit);
-                const keyUsage = getFiniteNumber(keyData.usage);
-
-                if (keyRemaining !== null) {
-                    setBalanceStatus(`នៅសល់ $${formatCreditAmount(keyRemaining)}`, "success");
-                    if (showToastOnSuccess) showToast("បានពិនិត្យ balance រួចរាល់!", "success");
-                    return;
+                updateCustomerStatus(keyData);
+                const hasKeyCreditLimit = updateCreditLimitStatus(keyData.limit, keyData.limit_reset);
+                if (!hasKeyCreditLimit) {
+                    updateWorkspaceCreditLimitStatus();
                 }
+                updateKeyExpiresStatus(keyData.expires_at);
 
-                if (keyLimit !== null && keyUsage !== null) {
-                    setBalanceStatus(`នៅសល់ $${formatCreditAmount(Math.max(keyLimit - keyUsage, 0))}`, "success");
-                    if (showToastOnSuccess) showToast("បានពិនិត្យ balance រួចរាល់!", "success");
-                    return;
-                }
-
-                try {
-                    const creditsInfo = await fetchOpenRouterJson(openRouterCreditsEndpoint, openRouterApiKey);
-                    const creditsData = creditsInfo?.data || {};
-                    const totalCredits = getFiniteNumber(creditsData.total_credits);
-                    const totalUsage = getFiniteNumber(creditsData.total_usage);
-                    if (totalCredits !== null && totalUsage !== null) {
-                        const remainingCredits = Math.max(totalCredits - totalUsage, 0);
-                        setBalanceStatus(`នៅសល់ $${formatCreditAmount(remainingCredits)}`, "success");
-                        if (showToastOnSuccess) showToast("បានពិនិត្យ balance រួចរាល់!", "success");
-                        return;
-                    }
-                } catch (creditsError) {
-                    console.warn(creditsError);
-                }
-
-                setBalanceStatus("Key OK / គ្មាន limit", "success");
-                if (showToastOnSuccess) showToast("API Key ដំណើរការ ប៉ុន្តែ key នេះមិនបង្ហាញ balance limit ទេ។", "success");
+                if (showToastOnSuccess) showToast("បានពិនិត្យ customer info រួចរាល់!", "success");
             } catch (error) {
                 console.error(error);
-                setBalanceStatus("Balance: Key ខុស", "error");
+                customerStatus.textContent = "Customer: key error";
+                updateCreditLimitStatus(undefined);
+                updateKeyExpiresStatus(undefined);
                 showToast("មិនអាចពិនិត្យ OpenRouter balance បានទេ។ សូមពិនិត្យ API Key។", "error");
             }
         }
@@ -531,6 +730,9 @@
             }[char]));
         }
 
+        applyModelOptions([]);
+        loadImageModels(false);
+
         function renderUploadedImages() {
             if (!uploadedImages.length) {
                 imagePreviewGrid.innerHTML = "";
@@ -587,6 +789,7 @@
         // Exponential backoff mechanism
         async function fetchWithRetry(url, options, retries = 3, delay = 1200) {
             try {
+                incrementRequestCount();
                 const response = await fetch(url, options);
                 const responseText = await response.text();
                 let data = {};
@@ -696,74 +899,80 @@
 
             generateBtn.setAttribute('disabled', 'true');
             generateBtn.innerHTML = `<i class="fa-solid fa-spinner animate-spin"></i> កំពុងដំណើរការក្លូន...`;
-            
-            let basePrompt = "Generate a visually similar, high-quality variation of this image. Preserve the central subject, composition, color palette, and general details to make it look like an authentic duplicate clone.";
-            if (selectedSimilarity === "medium") {
-                basePrompt = "Create a modern, creative alternative clone of this image. Keep the main core subject but alter small elements, lighting, or the surrounding background slightly for a unique variation.";
-            } else if (selectedSimilarity === "creative") {
-                basePrompt = "Use this image as a structural inspiration to create a brand new, artistically distinct clone. Keep only the basic idea or composition while applying a fresh visual style, dynamic range, and imaginative background changes.";
-            }
 
-            if (extraPrompt) {
-                basePrompt += ` Additionally, incorporate the following creative direction requested by the user: ${extraPrompt}.`;
-            }
-
-            // Execute clones sequentially for mobile stability
-            let cloneIndex = 1;
-            for (let sourceIndex = 0; sourceIndex < uploadedImages.length; sourceIndex++) {
-                const sourceImage = uploadedImages[sourceIndex];
-                for (let sourceCloneIndex = 1; sourceCloneIndex <= countPerSource; sourceCloneIndex++) {
-                    await generateSingleClone(cloneIndex, basePrompt, sourceImage, openRouterApiKey, sourceIndex + 1, sourceCloneIndex);
-                    cloneIndex++;
+            try {
+                let basePrompt = "Generate a visually similar, high-quality variation of this image. Preserve the central subject, composition, color palette, and general details to make it look like an authentic duplicate clone.";
+                if (selectedSimilarity === "medium") {
+                    basePrompt = "Create a modern, creative alternative clone of this image. Keep the main core subject but alter small elements, lighting, or the surrounding background slightly for a unique variation.";
+                } else if (selectedSimilarity === "creative") {
+                    basePrompt = "Use this image as a structural inspiration to create a brand new, artistically distinct clone. Keep only the basic idea or composition while applying a fresh visual style, dynamic range, and imaginative background changes.";
                 }
-            }
 
-            generateBtn.removeAttribute('disabled');
-            generateBtn.innerHTML = `<i class="fa-solid fa-bolt"></i> ចាប់ផ្តើមក្លូនរូបភាព`;
-            
-            if (generatedImagesArray.length > 0) {
-                downloadAllBtn.classList.remove('hidden');
-                if (isIOS) {
-                    showToast("ក្លូនបានជោគជ័យ! ចុចលើរូបនីមួយៗដើម្បី 'រក្សាទុក' ទៅ iPhone។", "success");
+                if (extraPrompt) {
+                    basePrompt += ` Additionally, incorporate the following creative direction requested by the user: ${extraPrompt}.`;
+                }
+
+                // Execute clones sequentially for mobile stability
+                let cloneIndex = 1;
+                for (let sourceIndex = 0; sourceIndex < uploadedImages.length; sourceIndex++) {
+                    const sourceImage = uploadedImages[sourceIndex];
+                    for (let sourceCloneIndex = 1; sourceCloneIndex <= countPerSource; sourceCloneIndex++) {
+                        await generateSingleClone(cloneIndex, basePrompt, sourceImage, openRouterApiKey, sourceIndex + 1, sourceCloneIndex);
+                        cloneIndex++;
+                    }
+                }
+
+                if (generatedImagesArray.length > 0) {
+                    downloadAllBtn.classList.remove('hidden');
+                    if (isIOS) {
+                        showToast("ក្លូនបានជោគជ័យ! ចុចលើរូបនីមួយៗដើម្បី 'រក្សាទុក' ទៅ iPhone។", "success");
+                    } else {
+                        showToast(`ការក្លូនបានជោគជ័យចំនួន ${generatedImagesArray.length} រូបភាព!`, "success");
+                    }
                 } else {
-                    showToast(`ការក្លូនបានជោគជ័យចំនួន ${generatedImagesArray.length} រូបភាព!`, "success");
+                    showToast("ការក្លូនរូបភាពមានបញ្ហា! សូមពិនិត្យ Model ឬ API Key។", "error");
                 }
-            } else {
-                showToast("ការក្លូនរូបភាពមានបញ្ហា! សូមប្រាកដថាប្រព័ន្ធ API ដំណើរការប្រក្រតី។", "error");
+            } catch (error) {
+                console.error(error);
+                showToast(error.message || "ការក្លូនមានបញ្ហា។ សូមពិនិត្យ Model ឬ API Key។", "error");
+            } finally {
+                generateBtn.removeAttribute('disabled');
+                generateBtn.innerHTML = `<i class="fa-solid fa-bolt"></i> ចាប់ផ្តើមក្លូនរូបភាព`;
+                refreshOpenRouterBalance(false);
             }
         });
 
         // Singular Clone Processor
         async function generateSingleClone(index, prompt, sourceImage, openRouterApiKey, sourceNumber, sourceCloneNumber) {
             const card = document.getElementById(`clone-card-${index}`);
-            
-            const uniquePrompt = prompt + ` [Source image: ${sourceNumber}. Clone variation: ${sourceCloneNumber}. Make this clone variation distinct and unique to index: ${index + Math.random()}]`;
-            const imageDataUrl = `data:${sourceImage.type};base64,${sourceImage.base64}`;
-            const payload = {
-                model: openRouterModel,
-                messages: [{
-                    role: "user",
-                    content: [
-                        {
-                            type: "text",
-                            text: uniquePrompt
-                        },
-                        {
-                            type: "image_url",
-                            image_url: {
-                                url: imageDataUrl
-                            }
-                        }
-                    ]
-                }],
-                modalities: ["image", "text"],
-                image_config: {
-                    aspect_ratio: "1:1"
-                },
-                stream: false
-            };
 
             try {
+                const uniquePrompt = prompt + ` [Source image: ${sourceNumber}. Clone variation: ${sourceCloneNumber}. Make this clone variation distinct and unique to index: ${index + Math.random()}]`;
+                const imageDataUrl = `data:${sourceImage.type};base64,${sourceImage.base64}`;
+                const payload = {
+                    model: getSelectedOpenRouterModel(),
+                    messages: [{
+                        role: "user",
+                        content: [
+                            {
+                                type: "text",
+                                text: uniquePrompt
+                            },
+                            {
+                                type: "image_url",
+                                image_url: {
+                                    url: imageDataUrl
+                                }
+                            }
+                        ]
+                    }],
+                    modalities: ["image", "text"],
+                    image_config: {
+                        aspect_ratio: "1:1"
+                    },
+                    stream: false
+                };
+
                 const data = await fetchWithRetry(openRouterEndpoint, {
                     method: 'POST',
                     headers: {
@@ -804,12 +1013,13 @@
 
             } catch (error) {
                 console.error(error);
+                const shortError = escapeHtml((error.message || "API request failed").slice(0, 120));
                 card.innerHTML = `
                     <div class="relative flex-grow flex items-center justify-center bg-red-950/20 border border-red-900/30 rounded-lg h-52">
                         <div class="text-center p-4">
                             <i class="fa-solid fa-triangle-exclamation text-2xl text-red-500 mb-2"></i>
                             <p class="text-xs text-red-400 font-semibold">បរាជ័យក្នុងការក្លូន</p>
-                            <p class="text-[9px] text-slate-500 mt-1">ប្រព័ន្ធរវល់ខ្លាំង ឬ API Key មិនត្រឹមត្រូវ</p>
+                            <p class="text-[9px] text-slate-500 mt-1 break-words">${shortError}</p>
                         </div>
                     </div>
                     <div class="mt-4 flex justify-between items-center">
