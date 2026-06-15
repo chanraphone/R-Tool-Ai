@@ -20,6 +20,49 @@
             backdrop-filter: blur(12px);
             border: 1px solid rgba(255, 255, 255, 0.1);
         }
+        .btn-pop-3d,
+        .choice-pop-3d,
+        .icon-pop-3d {
+            transform: translateY(0);
+            transition: transform 160ms ease, box-shadow 160ms ease, border-color 160ms ease, background 160ms ease;
+        }
+        .btn-pop-3d {
+            box-shadow: 0 7px 0 rgba(15, 23, 42, 0.95), 0 16px 32px rgba(99, 102, 241, 0.22);
+        }
+        .btn-pop-3d:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 9px 0 rgba(15, 23, 42, 0.95), 0 22px 40px rgba(99, 102, 241, 0.28);
+        }
+        .btn-pop-3d:active:not(:disabled) {
+            transform: translateY(4px);
+            box-shadow: 0 3px 0 rgba(15, 23, 42, 0.95), 0 10px 20px rgba(99, 102, 241, 0.18);
+        }
+        .btn-pop-3d:disabled {
+            transform: none;
+            box-shadow: none;
+        }
+        .choice-pop-3d {
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06), 0 5px 0 rgba(15, 23, 42, 0.9);
+        }
+        .choice-pop-3d:hover {
+            transform: translateY(-2px);
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08), 0 7px 0 rgba(15, 23, 42, 0.9), 0 14px 26px rgba(99, 102, 241, 0.18);
+        }
+        .choice-pop-3d.active-style {
+            background: linear-gradient(180deg, rgba(79, 70, 229, 0.24), rgba(15, 23, 42, 0.72));
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1), 0 6px 0 rgba(49, 46, 129, 0.85), 0 16px 30px rgba(99, 102, 241, 0.22);
+        }
+        .icon-pop-3d {
+            box-shadow: 0 3px 0 rgba(15, 23, 42, 0.85);
+        }
+        .icon-pop-3d:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 0 rgba(15, 23, 42, 0.85), 0 10px 18px rgba(99, 102, 241, 0.14);
+        }
+        .icon-pop-3d:active {
+            transform: translateY(2px);
+            box-shadow: 0 1px 0 rgba(15, 23, 42, 0.85);
+        }
     </style>
 </head>
 <body class="text-slate-100 min-h-screen flex flex-col justify-between">
@@ -38,26 +81,26 @@
                     <p class="hidden sm:block text-[11px] text-slate-400">ជំនាន់ដំបូង៖ សាមញ្ញ លឿន និងងាយស្រួលប្រើប្រាស់</p>
                 </div>
             </div>
-            <div class="w-full lg:w-auto flex flex-col gap-2 lg:items-end">
-                <div class="w-full lg:w-auto flex items-center gap-2 bg-slate-950/60 border border-slate-800 rounded-lg px-2.5 py-1.5">
-                    <i class="fa-solid fa-key text-xs text-indigo-400"></i>
-                    <input id="apiKeyInput" type="password" autocomplete="off" spellcheck="false" placeholder="OpenRouter API Key" class="min-w-0 flex-1 sm:w-56 bg-transparent text-xs text-slate-200 placeholder-slate-500 focus:outline-none">
-                    <button id="toggleApiKeyBtn" type="button" class="text-slate-400 hover:text-slate-200 p-1" title="បង្ហាញ/លាក់ API Key">
+            <div class="w-full lg:w-auto flex flex-col gap-1.5 lg:items-end">
+                <div class="w-full lg:w-auto flex items-center gap-1.5 bg-slate-950/60 border border-slate-800 rounded-lg px-2 py-1.5">
+                    <i class="fa-solid fa-key text-xs text-indigo-400 shrink-0"></i>
+                    <input id="apiKeyInput" type="password" autocomplete="off" spellcheck="false" placeholder="API Key" class="min-w-0 flex-1 w-0 sm:w-52 lg:w-56 bg-transparent text-xs text-slate-200 placeholder-slate-500 focus:outline-none">
+                    <button id="toggleApiKeyBtn" type="button" class="icon-pop-3d shrink-0 w-7 h-7 flex items-center justify-center text-slate-400 hover:text-slate-200 p-1" title="បង្ហាញ/លាក់ API Key">
                         <i id="toggleApiKeyIcon" class="fa-solid fa-eye"></i>
                     </button>
-                    <button id="refreshBalanceBtn" type="button" class="text-slate-400 hover:text-slate-200 p-1" title="ពិនិត្យ balance">
+                    <button id="refreshBalanceBtn" type="button" class="icon-pop-3d shrink-0 w-7 h-7 flex items-center justify-center text-slate-400 hover:text-slate-200 p-1" title="ពិនិត្យ balance">
                         <i class="fa-solid fa-rotate"></i>
                     </button>
                 </div>
-                <div class="flex flex-wrap items-center gap-1.5">
-                    <span class="flex h-2.5 w-2.5 relative">
+                <div class="flex flex-wrap items-center gap-1.5 text-[10px]">
+                    <span class="flex h-2 w-2 relative shrink-0">
                         <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                        <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500"></span>
+                        <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
                     </span>
-                    <span class="text-[11px] leading-none text-slate-300 font-medium bg-slate-800/80 px-2.5 py-1.5 rounded-full border border-slate-700">R-Tool-AI</span>
-                    <span id="customerStatus" class="text-[11px] leading-none text-slate-300 font-medium bg-slate-800/80 px-2.5 py-1.5 rounded-full border border-slate-700 whitespace-nowrap">Customer: --</span>
-                    <span id="keyExpiresStatus" class="text-[11px] leading-none text-slate-300 font-medium bg-slate-800/80 px-2.5 py-1.5 rounded-full border border-slate-700 whitespace-nowrap">Expiration: --</span>
-                    <span id="creditLimitStatus" class="text-[11px] leading-none text-slate-300 font-medium bg-slate-800/80 px-2.5 py-1.5 rounded-full border border-slate-700 whitespace-nowrap">Credit limit: --</span>
+                    <span class="leading-none text-slate-300 font-medium bg-slate-800/80 px-2 py-1 rounded-full border border-slate-700">R-Tool-AI</span>
+                    <span id="customerStatus" class="max-w-[142px] sm:max-w-none truncate leading-none text-slate-300 font-medium bg-slate-800/80 px-2 py-1 rounded-full border border-slate-700 whitespace-nowrap">Customer: --</span>
+                    <span id="keyExpiresStatus" class="leading-none text-slate-300 font-medium bg-slate-800/80 px-2 py-1 rounded-full border border-slate-700 whitespace-nowrap">Expiration: --</span>
+                    <span id="creditLimitStatus" class="leading-none text-slate-300 font-medium bg-slate-800/80 px-2 py-1 rounded-full border border-slate-700 whitespace-nowrap">Credit limit: --</span>
                 </div>
             </div>
         </div>
@@ -89,7 +132,7 @@
                         <div id="imagePreviewContainer" class="hidden relative w-full rounded-lg border border-slate-700 bg-slate-900 p-3">
                             <div class="flex items-center justify-between gap-3 mb-3">
                                 <span id="selectedImagesCount" class="text-xs text-indigo-300 font-semibold bg-indigo-500/10 border border-indigo-500/20 rounded-full px-3 py-1">0 រូបដើម</span>
-                                <button id="removeImageBtn" type="button" class="bg-red-500/80 hover:bg-red-600 text-white px-3 py-1.5 rounded-lg transition-colors shadow-lg backdrop-blur-sm text-xs flex items-center gap-1.5" title="លុបទាំងអស់">
+                                <button id="removeImageBtn" type="button" class="btn-pop-3d bg-red-500/80 hover:bg-red-600 text-white px-3 py-1.5 rounded-lg transition-colors shadow-lg backdrop-blur-sm text-xs flex items-center gap-1.5" title="លុបទាំងអស់">
                                     <i class="fa-solid fa-trash-can"></i> លុបទាំងអស់
                                 </button>
                             </div>
@@ -110,9 +153,9 @@
                     <div>
                         <div class="flex justify-between items-center mb-2">
                             <label class="text-sm font-medium text-slate-300">ចំនួនក្លូនក្នុងមួយរូបដើម</label>
-                            <span id="quantityVal" class="text-indigo-400 font-bold bg-indigo-500/10 px-2.5 py-0.5 rounded-md border border-indigo-500/20">3 រូបភាព</span>
+                            <span id="quantityVal" class="text-indigo-400 font-bold bg-indigo-500/10 px-2.5 py-0.5 rounded-md border border-indigo-500/20">1 រូបភាព</span>
                         </div>
-                        <input type="range" id="cloneQuantity" min="1" max="8" value="3" class="w-full h-2 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-indigo-500 focus:outline-none">
+                        <input type="range" id="cloneQuantity" min="1" max="8" value="1" class="w-full h-2 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-indigo-500 focus:outline-none">
                         <div class="flex justify-between text-[10px] text-slate-500 mt-1 px-1">
                             <span>1 រូបភាព</span>
                             <span>4 រូបភាព</span>
@@ -124,15 +167,15 @@
                     <div>
                         <label class="text-sm font-medium text-slate-300 block mb-2">កម្រិតស្រដៀងនឹងច្បាប់ដើម</label>
                         <div class="grid grid-cols-3 gap-2">
-                            <button type="button" data-similarity="high" class="similarity-btn border border-slate-700 bg-slate-950/40 rounded-xl p-3 text-center transition-all hover:bg-slate-800 active-style border-indigo-500 text-indigo-400">
+                            <button type="button" data-similarity="high" class="similarity-btn choice-pop-3d border border-slate-700 bg-slate-950/40 rounded-xl p-3 text-center transition-all hover:bg-slate-800 active-style border-indigo-500 text-indigo-400">
                                 <i class="fa-solid fa-crosshairs block text-lg mb-1"></i>
                                 <span class="text-xs font-semibold">ស្រដៀងខ្លាំង</span>
                             </button>
-                            <button type="button" data-similarity="medium" class="similarity-btn border border-slate-700 bg-slate-950/40 rounded-xl p-3 text-center transition-all hover:bg-slate-800">
+                            <button type="button" data-similarity="medium" class="similarity-btn choice-pop-3d border border-slate-700 bg-slate-950/40 rounded-xl p-3 text-center transition-all hover:bg-slate-800">
                                 <i class="fa-solid fa-shuffle block text-lg mb-1"></i>
                                 <span class="text-xs font-semibold">ស្រដៀងល្មម</span>
                             </button>
-                            <button type="button" data-similarity="creative" class="similarity-btn border border-slate-700 bg-slate-950/40 rounded-xl p-3 text-center transition-all hover:bg-slate-800">
+                            <button type="button" data-similarity="creative" class="similarity-btn choice-pop-3d border border-slate-700 bg-slate-950/40 rounded-xl p-3 text-center transition-all hover:bg-slate-800">
                                 <i class="fa-solid fa-wand-magic-sparkles block text-lg mb-1"></i>
                                 <span class="text-xs font-semibold">ច្នៃប្រឌិតថ្មី</span>
                             </button>
@@ -143,7 +186,7 @@
                     <div>
                         <label class="text-sm font-medium text-slate-300 block mb-2 flex items-center justify-between">
                             <span>ជ្រើសរើស AI Model</span>
-                            <button id="reloadModelsBtn" type="button" class="text-[10px] text-indigo-300 hover:text-indigo-200 font-semibold flex items-center gap-1">
+                            <button id="reloadModelsBtn" type="button" class="icon-pop-3d text-[10px] text-indigo-300 hover:text-indigo-200 font-semibold flex items-center gap-1 px-2 py-1 border border-slate-800 bg-slate-950/40">
                                 <i class="fa-solid fa-rotate"></i> Load Models
                             </button>
                         </label>
@@ -163,7 +206,7 @@
                     </div>
 
                     <!-- Action Button -->
-                    <button id="generateBtn" disabled class="w-full py-4 px-6 rounded-xl font-bold bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 text-white shadow-lg shadow-indigo-500/20 hover:shadow-indigo-500/40 hover:opacity-95 transition-all disabled:opacity-50 disabled:cursor-not-allowed disabled:shadow-none flex items-center justify-center gap-2">
+                    <button id="generateBtn" disabled class="btn-pop-3d w-full py-4 px-6 rounded-xl font-bold bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 text-white shadow-lg shadow-indigo-500/20 hover:shadow-indigo-500/40 hover:opacity-95 transition-all disabled:opacity-50 disabled:cursor-not-allowed disabled:shadow-none flex items-center justify-center gap-2">
                         <i class="fa-solid fa-bolt"></i> ចាប់ផ្តើមក្លូនរូបភាព
                     </button>
                 </div>
@@ -176,7 +219,7 @@
                         <h2 class="text-lg font-semibold flex items-center gap-2 text-indigo-400">
                             <i class="fa-solid fa-images"></i> លទ្ធផលនៃការក្លូន (Cloned Gallery)
                         </h2>
-                        <button id="downloadAllBtn" class="hidden text-xs bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 px-3 py-1.5 rounded-lg transition-colors flex items-center gap-1.5">
+                        <button id="downloadAllBtn" class="btn-pop-3d hidden text-xs bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 px-3 py-1.5 rounded-lg transition-colors flex items-center gap-1.5">
                             <i class="fa-solid fa-download"></i> ទាញយករូបទាំងអស់
                         </button>
                     </div>
@@ -208,7 +251,7 @@
     <div id="previewModal" class="fixed inset-0 bg-slate-950/95 z-50 hidden flex-col items-center justify-center p-4 backdrop-blur-md">
         <div class="relative max-w-md w-full flex flex-col items-center">
             <!-- Close Button -->
-            <button id="closeModalBtn" class="absolute -top-12 right-0 bg-slate-800 hover:bg-slate-700 text-white p-2.5 rounded-full transition-all border border-slate-700">
+            <button id="closeModalBtn" class="icon-pop-3d absolute -top-12 right-0 bg-slate-800 hover:bg-slate-700 text-white p-2.5 rounded-full transition-all border border-slate-700">
                 <i class="fa-solid fa-xmark text-lg"></i>
             </button>
             
@@ -227,10 +270,42 @@
 
             <!-- Standard Download Button (Hidden on iOS) -->
             <div id="standardDownloadBtnContainer" class="mt-4 w-full">
-                <a id="modalDownloadBtn" href="#" download="cloned_image.png" class="w-full justify-center bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-3 rounded-xl font-bold transition-colors flex items-center gap-2">
+                <a id="modalDownloadBtn" href="#" download="cloned_image.png" class="btn-pop-3d w-full justify-center bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-3 rounded-xl font-bold transition-colors flex items-center gap-2">
                     <i class="fa-solid fa-download"></i> ទាញយករូបនេះ
                 </a>
             </div>
+        </div>
+    </div>
+
+    <!-- Admin Contact Notice Modal -->
+    <div id="adminNoticeModal" class="fixed inset-0 bg-slate-950/80 z-50 hidden items-center justify-center p-4 backdrop-blur-sm">
+        <div class="max-w-md w-full bg-slate-900 border border-red-500/30 rounded-2xl p-6 shadow-2xl">
+            <div class="flex items-start gap-3">
+                <div class="w-10 h-10 rounded-full bg-red-500/15 border border-red-500/30 flex items-center justify-center text-red-300 shrink-0">
+                    <i class="fa-solid fa-triangle-exclamation"></i>
+                </div>
+                <div class="min-w-0">
+                    <h3 id="adminNoticeTitle" class="text-lg font-bold text-white">សូមទាក់ទង Admin</h3>
+                    <p id="adminNoticeMessage" class="text-sm text-slate-300 mt-1 leading-relaxed">សូមទាក់ទង Admin ដើម្បីទិញ ឬបន្ត API Key។</p>
+                </div>
+            </div>
+            <div class="mt-5 grid gap-2 text-sm">
+                <a href="mailto:chanraphone4@gmail.com" class="flex items-center gap-2 text-indigo-200 hover:text-indigo-100 bg-slate-950/60 border border-slate-800 rounded-lg px-3 py-2">
+                    <i class="fa-solid fa-envelope text-indigo-300"></i>
+                    <span>chanraphone4@gmail.com</span>
+                </a>
+                <a href="tel:077857878" class="flex items-center gap-2 text-indigo-200 hover:text-indigo-100 bg-slate-950/60 border border-slate-800 rounded-lg px-3 py-2">
+                    <i class="fa-solid fa-phone text-indigo-300"></i>
+                    <span>077857878</span>
+                </a>
+                <a href="tel:086680000" class="flex items-center gap-2 text-indigo-200 hover:text-indigo-100 bg-slate-950/60 border border-slate-800 rounded-lg px-3 py-2">
+                    <i class="fa-solid fa-phone text-indigo-300"></i>
+                    <span>086680000</span>
+                </a>
+            </div>
+            <button id="adminNoticeCloseBtn" type="button" class="btn-pop-3d mt-5 w-full bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2.5 rounded-xl font-semibold transition-colors">
+                OK
+            </button>
         </div>
     </div>
 
@@ -259,6 +334,8 @@
         const workspaceCreditLimit = 1;
         const workspaceCreditLimitResetInterval = "weekly";
         const openRouterAppTitle = "AI Image Cloner";
+        const adminContactEmail = "chanraphone4@gmail.com";
+        const adminContactPhones = "077857878 / 086680000";
         const apiKeyStorageKey = "openrouter_api_key";
         const selectedModelStorageKey = "openrouter_selected_model";
         const requestCountStorageKey = "openrouter_request_count";
@@ -267,6 +344,7 @@
         let selectedSimilarity = "high";
         let generatedImagesArray = [];
         let balanceRefreshTimer;
+        let latestKeyData = null;
         const savedOpenRouterModel = localStorage.getItem(selectedModelStorageKey);
         let selectedOpenRouterModel = savedOpenRouterModel && !["undefined", "null", ""].includes(savedOpenRouterModel)
             ? savedOpenRouterModel
@@ -306,6 +384,10 @@
         const toast = document.getElementById('toast');
         const toastMessage = document.getElementById('toastMessage');
         const toastIcon = document.getElementById('toastIcon');
+        const adminNoticeModal = document.getElementById('adminNoticeModal');
+        const adminNoticeTitle = document.getElementById('adminNoticeTitle');
+        const adminNoticeMessage = document.getElementById('adminNoticeMessage');
+        const adminNoticeCloseBtn = document.getElementById('adminNoticeCloseBtn');
 
         // Modal elements
         const previewModal = document.getElementById('previewModal');
@@ -388,6 +470,67 @@
             const hasWorkspaceLimit = updateCreditLimitStatus(workspaceCreditLimit, workspaceCreditLimitResetInterval);
             creditLimitStatus.title = "Workspace guardrail budget configured in OpenRouter.";
             return hasWorkspaceLimit;
+        }
+
+        function getCreditRemaining(keyData) {
+            const directRemaining = getFiniteNumber(keyData?.limit_remaining);
+            if (directRemaining !== null) return directRemaining;
+
+            const keyLimit = getFiniteNumber(keyData?.limit);
+            const keyUsage = getFiniteNumber(keyData?.usage);
+            if (keyLimit !== null && keyUsage !== null) {
+                return Math.max(keyLimit - keyUsage, 0);
+            }
+
+            return null;
+        }
+
+        function isKeyExpired(value) {
+            if (value === null || value === undefined || value === "") return false;
+            const expiresDate = new Date(value);
+            return Number.isFinite(expiresDate.getTime()) && expiresDate.getTime() <= Date.now();
+        }
+
+        function showAdminContactNotice(reason) {
+            const messages = {
+                expired: "API Key របស់អ្នកបានផុតកំណត់។ សូមទាក់ទង Admin ដើម្បីទិញ ឬបន្ត key។",
+                credit: "Credit របស់ API Key អស់ហើយ។ សូមទាក់ទង Admin ដើម្បីទិញ credit ឬបន្ត key។"
+            };
+
+            adminNoticeTitle.textContent = reason === "expired" ? "API Key ផុតកំណត់" : "Credit អស់";
+            adminNoticeMessage.textContent = `${messages[reason]} Email: ${adminContactEmail}. Phone: ${adminContactPhones}.`;
+            adminNoticeModal.classList.remove('hidden');
+            adminNoticeModal.classList.add('flex');
+        }
+
+        function hideAdminContactNotice() {
+            adminNoticeModal.classList.add('hidden');
+            adminNoticeModal.classList.remove('flex');
+        }
+
+        function checkKeyAccessNotice(keyData) {
+            if (isKeyExpired(keyData?.expires_at)) {
+                showAdminContactNotice("expired");
+                return false;
+            }
+
+            const creditRemaining = getCreditRemaining(keyData);
+            if (creditRemaining !== null && creditRemaining <= 0) {
+                showAdminContactNotice("credit");
+                return false;
+            }
+
+            hideAdminContactNotice();
+            return true;
+        }
+
+        function isCreditError(error) {
+            const message = String(error?.message || "").toLowerCase();
+            return error?.status === 402
+                || message.includes("credit")
+                || message.includes("quota")
+                || message.includes("insufficient")
+                || message.includes("limit exceeded");
         }
 
         function formatTimeRemaining(targetDate) {
@@ -507,7 +650,9 @@
             localStorage.setItem(apiKeyStorageKey, getOpenRouterApiKey());
             clearTimeout(balanceRefreshTimer);
             const openRouterApiKey = getOpenRouterApiKey();
+            latestKeyData = null;
             customerStatus.textContent = openRouterApiKey ? "Customer: checking" : "Customer: --";
+            if (!openRouterApiKey) hideAdminContactNotice();
             updateCreditLimitStatus(undefined);
             updateKeyExpiresStatus(undefined);
             if (openRouterApiKey.length > 20) {
@@ -586,6 +731,8 @@
         async function refreshOpenRouterBalance(showToastOnSuccess = false) {
             const openRouterApiKey = getOpenRouterApiKey();
             if (!openRouterApiKey) {
+                latestKeyData = null;
+                hideAdminContactNotice();
                 updateCustomerStatus(null);
                 updateCreditLimitStatus(undefined);
                 updateKeyExpiresStatus(undefined);
@@ -600,16 +747,19 @@
             try {
                 const keyInfo = await fetchOpenRouterJson(openRouterKeyEndpoint, openRouterApiKey);
                 const keyData = keyInfo?.data || {};
+                latestKeyData = keyData;
                 updateCustomerStatus(keyData);
                 const hasKeyCreditLimit = updateCreditLimitStatus(keyData.limit, keyData.limit_reset);
                 if (!hasKeyCreditLimit) {
                     updateWorkspaceCreditLimitStatus();
                 }
                 updateKeyExpiresStatus(keyData.expires_at);
+                checkKeyAccessNotice(keyData);
 
                 if (showToastOnSuccess) showToast("បានពិនិត្យ customer info រួចរាល់!", "success");
             } catch (error) {
                 console.error(error);
+                latestKeyData = null;
                 customerStatus.textContent = "Customer: key error";
                 updateCreditLimitStatus(undefined);
                 updateKeyExpiresStatus(undefined);
@@ -625,11 +775,11 @@
         similarityBtns.forEach(btn => {
             btn.addEventListener('click', () => {
                 similarityBtns.forEach(b => {
-                    b.classList.remove('border-indigo-500', 'text-indigo-400');
+                    b.classList.remove('active-style', 'border-indigo-500', 'text-indigo-400');
                     b.classList.add('border-slate-700');
                 });
                 btn.classList.remove('border-slate-700');
-                btn.classList.add('border-indigo-500', 'text-indigo-400');
+                btn.classList.add('active-style', 'border-indigo-500', 'text-indigo-400');
                 selectedSimilarity = btn.dataset.similarity;
             });
         });
@@ -747,7 +897,7 @@
             imagePreviewGrid.innerHTML = uploadedImages.map((image, index) => `
                 <div class="relative rounded-lg overflow-hidden border border-slate-700 bg-slate-950/60 h-28 group/source">
                     <img src="${image.dataUrl}" alt="${escapeHtml(image.name)}" class="w-full h-full object-cover">
-                    <button type="button" onclick="event.stopPropagation(); removeUploadedImage('${image.id}')" class="absolute top-2 right-2 bg-red-500/85 hover:bg-red-600 text-white w-7 h-7 rounded-lg transition-colors flex items-center justify-center opacity-100 sm:opacity-0 sm:group-hover/source:opacity-100" title="លុបរូបនេះ">
+                    <button type="button" onclick="event.stopPropagation(); removeUploadedImage('${image.id}')" class="icon-pop-3d absolute top-2 right-2 bg-red-500/85 hover:bg-red-600 text-white w-7 h-7 rounded-lg transition-colors flex items-center justify-center opacity-100 sm:opacity-0 sm:group-hover/source:opacity-100" title="លុបរូបនេះ">
                         <i class="fa-solid fa-xmark text-xs"></i>
                     </button>
                     <div class="absolute left-2 bottom-2 max-w-[calc(100%-1rem)] text-[10px] text-white bg-slate-950/70 px-2 py-1 rounded-md truncate">#${index + 1} ${escapeHtml(image.name)}</div>
@@ -841,6 +991,8 @@
             previewModal.classList.remove('flex');
         });
 
+        adminNoticeCloseBtn.addEventListener('click', hideAdminContactNotice);
+
         // Smart downloader
         window.downloadImage = function(src, index) {
             if (isIOS) {
@@ -861,6 +1013,23 @@
             const openRouterApiKey = getOpenRouterApiKey();
             if (!openRouterApiKey) {
                 showToast("សូមបញ្ចូល OpenRouter API Key មុនពេលក្លូនរូបភាព!", "error");
+                return;
+            }
+
+            try {
+                const keyInfo = await fetchOpenRouterJson(openRouterKeyEndpoint, openRouterApiKey);
+                const keyData = keyInfo?.data || {};
+                latestKeyData = keyData;
+                updateCustomerStatus(keyData);
+                const hasKeyCreditLimit = updateCreditLimitStatus(keyData.limit, keyData.limit_reset);
+                if (!hasKeyCreditLimit) {
+                    updateWorkspaceCreditLimitStatus();
+                }
+                updateKeyExpiresStatus(keyData.expires_at);
+                if (!checkKeyAccessNotice(keyData)) return;
+            } catch (error) {
+                console.error(error);
+                showToast("មិនអាចពិនិត្យស្ថានភាព API Key បានទេ។ សូមពិនិត្យ Key ម្តងទៀត។", "error");
                 return;
             }
 
@@ -889,7 +1058,7 @@
                         </div>
                         <div class="mt-4 flex justify-between items-center">
                             <span class="text-xs text-indigo-400 bg-indigo-500/10 px-2.5 py-1 rounded-full font-semibold border border-indigo-500/10">រូបភាពក្លូន #${i}</span>
-                            <button disabled class="opacity-50 text-slate-400 bg-slate-800 px-3 py-1.5 rounded-lg text-xs flex items-center gap-1.5 cursor-not-allowed">
+                            <button disabled class="btn-pop-3d opacity-50 text-slate-400 bg-slate-800 px-3 py-1.5 rounded-lg text-xs flex items-center gap-1.5 cursor-not-allowed">
                                 <i class="fa-solid fa-spinner animate-spin"></i> រង់ចាំ
                             </button>
                         </div>
@@ -934,6 +1103,9 @@
                 }
             } catch (error) {
                 console.error(error);
+                if (isCreditError(error)) {
+                    showAdminContactNotice("credit");
+                }
                 showToast(error.message || "ការក្លូនមានបញ្ហា។ សូមពិនិត្យ Model ឬ API Key។", "error");
             } finally {
                 generateBtn.removeAttribute('disabled');
@@ -1005,7 +1177,7 @@
                     </div>
                     <div class="mt-4 flex justify-between items-center">
                         <span class="text-xs text-indigo-400 bg-indigo-500/10 px-2.5 py-1 rounded-full font-semibold border border-indigo-500/10">រូបដើម #${sourceNumber} • ក្លូន #${sourceCloneNumber}</span>
-                        <button onclick="downloadImage('${finalImageSrc}', ${index})" class="text-xs text-white bg-indigo-600 hover:bg-indigo-700 px-3 py-1.5 rounded-lg flex items-center gap-1.5 transition-colors">
+                        <button onclick="downloadImage('${finalImageSrc}', ${index})" class="btn-pop-3d text-xs text-white bg-indigo-600 hover:bg-indigo-700 px-3 py-1.5 rounded-lg flex items-center gap-1.5 transition-colors">
                             <i class="fa-solid fa-download"></i> ទាញយក
                         </button>
                     </div>
@@ -1013,6 +1185,9 @@
 
             } catch (error) {
                 console.error(error);
+                if (isCreditError(error)) {
+                    showAdminContactNotice("credit");
+                }
                 const shortError = escapeHtml((error.message || "API request failed").slice(0, 120));
                 card.innerHTML = `
                     <div class="relative flex-grow flex items-center justify-center bg-red-950/20 border border-red-900/30 rounded-lg h-52">
@@ -1024,7 +1199,7 @@
                     </div>
                     <div class="mt-4 flex justify-between items-center">
                         <span class="text-xs text-red-500/50 bg-red-500/5 px-2.5 py-1 rounded-full font-semibold border border-red-500/10">រូបដើម #${sourceNumber} • ក្លូន #${sourceCloneNumber}</span>
-                        <button disabled class="opacity-40 text-slate-500 bg-slate-800 px-3 py-1.5 rounded-lg text-xs cursor-not-allowed">
+                        <button disabled class="btn-pop-3d opacity-40 text-slate-500 bg-slate-800 px-3 py-1.5 rounded-lg text-xs cursor-not-allowed">
                             <i class="fa-solid fa-ban"></i> បរាជ័យ
                         </button>
                     </div>
